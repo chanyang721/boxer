@@ -20,49 +20,6 @@
     - 해당 규칙에 따라 이전에 시장에 나온 아이템의 가치를 가져온다
 
 
-## 서비스의 데이터 [ 출처: [트레더리](https://traderie.com/diablo2resurrected) ]
-### 디아블로2 레저렉션의 아이템 분류
-- 유니크
-- 룬워드
-- 룬
-- 세트
-- 베이스
-- 크레프트
-- 참
-- 보석
-
-### 디아블로2 레저렉션의 아이템 정보
-#### 부위
-- 무기
-- 투구
-- 갑옷
-- 허리
-- 신발
-- 장갑
-- 목걸이
-- 반지
-##### 품질
-- 로우
-- 노멀
-- 고급
-##### 홈
-- 1 ~ 6
-##### 무형 
-- yes
-- no
-##### 이미지
-##### 이름
-##### 등급
-- 노멀
-- 매직
-- 레어
-- 유니크
-- 세트
-
-##### 옵션
-- [레거시 홈페이지](http://classic.battle.net/diablo2exp/items/weaponsandarmor.shtml)
-
-
 ## 목적
 1. 디아블로2 레저렉션에서 입력된 아이템의 현제 모드에서 가치를 측정한다
 2. 사용자가 입력하지 않고 에드온 형태로 디아블로 내부에서 아이템 정보를 가져오는 방법
@@ -72,32 +29,66 @@
 
 ## 서비스 형태
 #### 웹 서비스 형태로 지원
-- 디아블로 주된 실행 환경은 PC이다 
+- 디아블로 주된 실행 환경은 PC이다
 
+
+#### 사용자 사용 경험
+1. 획득한 아이템 사진을 스크린샷을 찍는다.
+2. 스크린샷을 웹 페이지에 올린다
+3. 페이지에 입력된 아이템 정보를 확인하고 수정한다
+4. 가치 확인 버튼을 누른다
+5. 룬으로 환산된 가치를 확인한다
+
+#### 가치 판단을 위한 프로세스
+##### 빅 데이터를 위한 데이터 소스 수집 과정
+1. 트레더리 사이트에서 가치 판단이 어려운 아이템을 타겟으로 한다 
+   - 룬워드 베이스(무기, 방패, 머리, 갑옷)
+   - 반지
+   - 차암
+   - 목걸이 - 보류 
+   - 벨트 - 보류
+   - 장갑 - 보류
+   - 신발 - 보류
+2. 해당 아이템의 옵션 정보에 따라 판매된 가격과 옵션값을 데이터베이스에 저장
+3. 최근 1년 데이터를 가져온다
+4. 스크레핑한 데이터를 데이터베이스에 저장
+5. 
+
+##### 사용자 서비스 경험 제공을 위한 전체 프로세스 
+1. 사용자가 전달한 아이템 정보와 이미지를 서버로 전송
+2. 아이템에 대한 기본 이미지와 받은 옵션의 범위 제공
+3. OCR로 얻은 아이템 정보를 제공
+4. 사용자 확인
+5. 데이터베이스에 해당 옵션으로 판매된 데이터를 가져온다
+6. 추측하는 가격을 룬으로 환산하여 같이 제공
+7. 룬의 현재 현금가를 환산해준다
 
 ### 사용 기술 스텍
-    - Frontend
-        - React
-        - Redux
+- Frontend
+    - React
+    - Redux
 
-    - Backend
-        - Node.js
-        - NestJS
-        - Web Scraping: Puppeteer
+- Backend
+    - Python
+    - FastAPI
+    - Web Scraping: Selenium
+    - OCR: Tesseract
 
-    - Database
-        - MongoDB
-        - Mongoose ODM
+- Database
+    - MongoDB
+    - Mongoose ODM
 
-    - Infra
-        - Firebase
-        - CI/CD
-        - AWS EC2
-        - AWS S3
-        - AWS DocumentDB
-        - AWS Route53
-        - AWS CloudFront
-        - AWS CodePipeline
-            - AWS SourceCode (Github) 
-            - AWS CodeBuild 
-            - AWS CodeDeploy (ECS)
+- Infra
+    - Firebase
+       - Google Auth Login
+    - AWS
+      - CI/CD
+        -  CodePipeline
+          -  SourceCode (Github)
+          -  CodeBuild
+          -  CodeDeploy (ECS)
+        - Amplify
+      - S3
+      - DocumentDB
+      - Route53
+      - ELB
