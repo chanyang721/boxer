@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 
 
-const App: React.FC = () => {
+const App = () => {
     const [ name, setName ] = useState('이찬양')
     const [ count, setCount ] = useState(0)
 
