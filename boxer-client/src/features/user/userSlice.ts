@@ -12,10 +12,8 @@ export interface IUserAction {
 
 
 export interface IUserInitialState {
-    user: {
-        name: string,
-        email: string,
-    },
+    name: string,
+    email: string,
 }
 
 

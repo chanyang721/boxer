@@ -5,12 +5,12 @@ import { createReducer, updateActionObjectToState, updateItemInArray } from '../
 /**
  * Define auth input type
  * */
-export interface authActionType {
+export interface IAuthAction {
     type: string,
-    payload: authInitialStateType
+    payload: IAuthInitialState
 }
 
-export interface authInitialStateType {
+export interface IAuthInitialState {
     token: {
         access: string, refresh: string,
     },
@@ -24,16 +24,12 @@ export interface authInitialStateType {
 /**
  * Reducer Case with action functions
  * */
-export const reducerCaseRegister = ( authState: authInitialStateType, action: any ) => {
-    // return updateItemInArray(authState, action.type, ( auth: authInitialStateType ) => {
-        return updateActionObjectToState(authState, action)
-    // })
+export const reducerCaseRegister = ( authState: IAuthInitialState, action: IAuthAction ) => {
+    return updateActionObjectToState(authState, action.payload)
 }
 
-export const reducerCaseLogin = ( authState: authInitialStateType, action: authActionType ) => {
-    return updateItemInArray(authState, action.type, ( auth: authInitialStateType ) => {
-        return updateActionObjectToState(auth, action)
-    })
+export const reducerCaseLogin = ( authState: IAuthInitialState, action: IAuthAction ) => {
+    return updateActionObjectToState(authState, action.payload)
 }
 
 /**
@@ -48,7 +44,7 @@ export const AuthHandlers = {
 /**
  * Auth Initial State
  * */
-export const authInitialState: authInitialStateType = {
+export const authInitialState: IAuthInitialState = {
     token           : {
         access : '',
         refresh: '',

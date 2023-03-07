@@ -10,8 +10,6 @@ const App = () => {
     const [ change, setChange ] = useState('EN')
 
     function getUser( props: any ) {
-        console.log(props)
-
         dispatch({
             type   : GET_USER,
             payload: { name: change === 'EN' ? 'Chanyang Lee' : "이찬양" },
@@ -21,6 +19,7 @@ const App = () => {
     return (
         <>
             <h1>Boxer</h1>
+
             <button onClick={( e ) => {
                 getUser(e)
                 setChange(change === 'EN' ? 'KR' : 'EN')
