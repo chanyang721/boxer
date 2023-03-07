@@ -1,36 +1,55 @@
-import { createReducer, updateItemInArray, updateActionObjectToState } from '../../common/utils'
+import { createReducer, updateActionObjectToState, updateItemInArray } from '../../common/utils'
 
-// export const register = ( payload: any ) => ( {
-//     type: REGISTER,
-//     payload,
-// } )
-//
-// export const login = ( payload: any ) => ( {
-//     type: LOGIN,
-//     payload,
-// } )
 
-export const reducerCaseRegister = ( authState: any, action: any ) => {
-    return updateItemInArray(authState, action.id, ( auth: any ) => {
-        return updateActionObjectToState(auth, { auth: action.auth })
+
+/**
+ * Define auth input type
+ * */
+export interface authActionType {
+    type: string,
+    payload: authInitialStateType
+}
+
+export interface authInitialStateType {
+    token: {
+        access: string, refresh: string,
+    },
+    firebase: {
+        idToken: string, uid: string,
+    },
+    isAuthenticated: boolean,
+}
+
+
+/**
+ * Reducer Case with action functions
+ * */
+export const reducerCaseRegister = ( authState: authInitialStateType, action: any ) => {
+    // return updateItemInArray(authState, action.type, ( auth: authInitialStateType ) => {
+        return updateActionObjectToState(authState, action)
+    // })
+}
+
+export const reducerCaseLogin = ( authState: authInitialStateType, action: authActionType ) => {
+    return updateItemInArray(authState, action.type, ( auth: authInitialStateType ) => {
+        return updateActionObjectToState(auth, action)
     })
 }
 
-export const reducerCaseLogin = ( authState: any, action: any ) => {
-    return updateItemInArray(authState, action.id, ( auth: any ) => {
-        return updateActionObjectToState(auth, { auth: action.auth })
-    })
-}
-
+/**
+ * Mapping handler of action types to reducer cases
+ * ActionType: ReducerCase
+ * */
 export const AuthHandlers = {
-    // Action Type: Reducer Case
     REGISTER: reducerCaseRegister,
     LOGIN   : reducerCaseLogin,
-
 }
 
-export const authInitialState = {
-    token          : {
+/**
+ * Auth Initial State
+ * */
+export const authInitialState: authInitialStateType = {
+    token           : {
         access : '',
         refresh: '',
     },
@@ -40,4 +59,8 @@ export const authInitialState = {
     },
     isAuthenticated: false,
 }
+
+/**
+ * Create Auth Reducer with @reduxjs/toolkit
+ * */
 export const authReducer = createReducer(authInitialState, AuthHandlers)

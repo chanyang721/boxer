@@ -65,8 +65,8 @@
 
 ### 사용 기술 스텍
 - Frontend
-    - React
-    - Redux
+    - [React]()
+    - [Redux](https://redux.js.org/style-guide/)
 
 - Backend
     - Python

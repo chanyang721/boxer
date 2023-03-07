@@ -1,22 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState }                from 'react'
+import { useAppDispatch, useAppSelector } from '../common/hooks'
+import { GET_USER }                       from '../constants/actionTypes'
 
 
 
 const App = () => {
-    const [ name, setName ] = useState('이찬양')
-    const [ count, setCount ] = useState(0)
+    const dispatch = useAppDispatch();
+    const userName = useAppSelector(( state: any ) => state.user.name)
+    const [ change, setChange ] = useState('EN')
+
+    function getUser( props: any ) {
+        console.log(props)
+
+        dispatch({
+            type   : GET_USER,
+            payload: { name: change === 'EN' ? 'Chanyang Lee' : "이찬양" },
+        })
+    }
 
     return (
         <>
             <h1>Boxer</h1>
-                <button onClick={() => setName("pray")}>EN</button>
-                <button onClick={() => setName("이찬양")}>KR</button>
-                <div>{name}</div>
-            <br/>
-            <br/>
-                <button onClick={() => setCount(count + 1)}>up</button>
-                <button onClick={() => setCount(count - 1)}>down</button>
-                <div className="count">{count}</div>
+            <button onClick={( e ) => {
+                getUser(e)
+                setChange(change === 'EN' ? 'KR' : 'EN')
+            }}>{change}</button>
+            <div>{userName}</div>
         </>
     );
 }
