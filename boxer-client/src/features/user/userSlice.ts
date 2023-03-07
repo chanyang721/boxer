@@ -1,4 +1,6 @@
-import { createReducer, updateActionObjectToState } from '../../common/utils'
+import { updateActionObjectToState }   from '../../common/utils'
+import { createAction, createReducer } from '@reduxjs/toolkit'
+import { GET_USER }                    from '../../constants/actionTypes'
 
 
 
@@ -10,7 +12,6 @@ export interface IUserAction {
     payload: IUserInitialState
 }
 
-
 export interface IUserInitialState {
     name: string,
     email: string,
@@ -18,26 +19,21 @@ export interface IUserInitialState {
 
 
 /**
- * Reducer Case with action functions
+ * Create Actions
  * */
-export const reducerCaseGETUser = ( authState: IUserInitialState, action: IUserAction ) => {
-    // return updateItemInArray(authState, action.type, ( auth: IUserInitialState ) => {
-    return updateActionObjectToState(authState, action.payload)
-    // })
-}
+export const GET_USER_ACTION = createAction<IUserInitialState>(GET_USER)
 
 /**
- * Mapping handler of action types to reducer cases
- * ActionType: ReducerCase
+ * Create Reducer Case
  * */
-export const userHandlers = {
-    GET_USER: reducerCaseGETUser,
+export const reducerCaseGetUser = ( authState: IUserInitialState, action: IUserAction ) => {
+    return updateActionObjectToState(authState, action.payload)
 }
 
 /**
  * User Initial State
  * */
-export const userInitialState = {
+export const userInitialState: IUserInitialState = {
     email: '',
     name : 'Chanyang Lee',
 }
@@ -45,4 +41,7 @@ export const userInitialState = {
 /**
  * Create User Reducer with @reduxjs/toolkit
  * */
-export const userReducer = createReducer(userInitialState, userHandlers)
+export const userReducer = createReducer(userInitialState, {
+    [ GET_USER_ACTION.type ]: reducerCaseGetUser,
+
+})

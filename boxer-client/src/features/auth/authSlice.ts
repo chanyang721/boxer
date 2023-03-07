@@ -1,5 +1,6 @@
-import { createReducer, updateActionObjectToState, updateItemInArray } from '../../common/utils'
-
+import { updateActionObjectToState }   from '../../common/utils'
+import { createAction, createReducer } from '@reduxjs/toolkit'
+import { LOGIN, REGISTER }             from '../../constants/actionTypes'
 
 
 /**
@@ -22,7 +23,13 @@ export interface IAuthInitialState {
 
 
 /**
- * Reducer Case with action functions
+ * Action Create functions
+ * */
+export const REGISTER_ACTION = createAction<IAuthInitialState>(REGISTER)
+export const LOGIN_ACTION = createAction<IAuthInitialState>(LOGIN)
+
+/**
+ * Reducer Case
  * */
 export const reducerCaseRegister = ( authState: IAuthInitialState, action: IAuthAction ) => {
     return updateActionObjectToState(authState, action.payload)
@@ -32,14 +39,6 @@ export const reducerCaseLogin = ( authState: IAuthInitialState, action: IAuthAct
     return updateActionObjectToState(authState, action.payload)
 }
 
-/**
- * Mapping handler of action types to reducer cases
- * ActionType: ReducerCase
- * */
-export const AuthHandlers = {
-    REGISTER: reducerCaseRegister,
-    LOGIN   : reducerCaseLogin,
-}
 
 /**
  * Auth Initial State
@@ -59,4 +58,16 @@ export const authInitialState: IAuthInitialState = {
 /**
  * Create Auth Reducer with @reduxjs/toolkit
  * */
-export const authReducer = createReducer(authInitialState, AuthHandlers)
+export const authReducer = createReducer(authInitialState, ( builder ) => {
+    builder
+        .addCase(REGISTER_ACTION, reducerCaseRegister)
+        .addCase(LOGIN_ACTION, reducerCaseLogin)
+
+        .addMatcher(
+            ( action ) => action.type.startsWith('test'),
+            ( state, action ) => {
+                console.log('action.type.startsWith(\'test/\')')
+            }
+        )
+        .addDefaultCase(( state, action ) => {})
+})
