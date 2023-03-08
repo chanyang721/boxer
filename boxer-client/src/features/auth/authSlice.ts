@@ -1,6 +1,7 @@
 import { updateActionObjectToState } from '../../common/utils'
 import { createAction, createSlice } from '@reduxjs/toolkit'
 import { LOGIN, REGISTER }           from '../../constants/actionTypes'
+import { AppDispatch }               from '../../app/store'
 
 
 
@@ -10,7 +11,6 @@ import { LOGIN, REGISTER }           from '../../constants/actionTypes'
 export interface IAuthAction {
     type: string,
     payload: IAuthInitialState,
-    error?: Error
 }
 
 
@@ -23,6 +23,7 @@ export interface IAuthInitialState {
     },
     isAuthenticated: boolean,
     status: string
+    error?: Error
 }
 
 
@@ -32,16 +33,15 @@ export interface IAuthInitialState {
 export const RegisterAction = createAction<IAuthInitialState>(REGISTER)
 export const LoginAction = createAction<IAuthInitialState>(LOGIN)
 
+
 /**
  * Reducer Case
  * */
-             //TODO action Interface 재설정
-export const RegisterReducerCase = ( authState: IAuthInitialState, action: IAuthAction ) => {
-                 return updateActionObjectToState(authState, action.payload)
-             }
-
-export const LoginReducerCase = ( authState: IAuthInitialState, action: IAuthAction ) => {
-    return updateActionObjectToState(authState, action.payload)
+const RegisterReducerCase = ( state: IAuthInitialState, action: IAuthAction ) => {
+    return updateActionObjectToState(state, action.payload)
+}
+const LoginReducerCase = ( state: IAuthInitialState, action: IAuthAction ) => {
+    return updateActionObjectToState(state, action.payload)
 }
 
 /**
@@ -69,20 +69,19 @@ const authSlice = createSlice({
     },
     extraReducers: ( builder ) => {
         builder
-            // .addCase(fetchAuth.pending, (state, action) => {
-            //     state.status = 'loading'
-            // })
-            // .addCase(fetchAuth.fulfilled, (state, action) => {
-            //     authAdapter.setAll(state, action.payload)
-            //     state.status = 'idle'
-            // })
-            // .addCase(saveNewTodo.fulfilled, authAdapter.addOne)
             .addMatcher(( action ) => action.type.startsWith('test'), ( state, action ) => {
                 console.log('action.type.startsWith(\'test/\')')
             })
             .addDefaultCase(( state, action ) => state)
     },
 })
+
+export const authDispatch = (dispatch: AppDispatch) => {
+    return {
+        REGISTER: ( payload: any ) => dispatch(acthActions.REGISTER(payload)),
+        LOGIN   : ( payload: any ) => dispatch(acthActions.LOGIN(payload)),
+    }
+}
 
 export const acthActions = authSlice.actions
 export default authSlice.reducer

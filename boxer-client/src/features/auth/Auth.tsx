@@ -1,17 +1,13 @@
 import { connect }                           from 'react-redux'
 import { mapDispatchProps, mapStateToProps } from '../../app/store'
-import { GET_USER }                           from '../../constants/actionTypes'
-import React, { MouseEventHandler, useState } from 'react'
+import React, { useState }                   from 'react'
+import { IProps }                            from '../../common/interfaces/props'
 
-export interface IProps {
-    state: any,
-    dispatch: any
-}
 
-function Auth( { state, dispatch }: IProps ) {
+function Auth( { state, dispatch, ...props }: IProps ) {
     const [ change, setChange ] = useState('EN')
 
-    const ChangeUserName = (e: any) => {
+    const changeUserName = ( e: any ) => {
         dispatch.user.GET_USER({ name: change === 'EN' ? 'Chanyang Lee' : "이찬양" })
         setChange(change === 'EN' ? 'KR' : 'EN')
     }
@@ -20,7 +16,7 @@ function Auth( { state, dispatch }: IProps ) {
         <>
             <div className="auth">Auth Component</div>
 
-            <button onClick={ChangeUserName}>{change}</button>
+            <button onClick={changeUserName}>{change}</button>
             <div>{state.user.name}</div>
         </>
     )

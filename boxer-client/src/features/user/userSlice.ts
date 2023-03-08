@@ -1,6 +1,7 @@
 import { updateActionObjectToState } from '../../common/utils'
 import { createAction, createSlice } from '@reduxjs/toolkit'
 import { GET_USER }                  from '../../constants/actionTypes'
+import { AppDispatch }               from '../../app/store'
 
 
 
@@ -10,13 +11,13 @@ import { GET_USER }                  from '../../constants/actionTypes'
 export interface IUserAction {
     type: string,
     payload: IUserInitialState,
-    error?: Error
 }
 
 
 export interface IUserInitialState {
     name: string,
     email: string,
+    error?: Error
 }
 
 
@@ -60,6 +61,14 @@ const userSlice = createSlice({
             .addDefaultCase(( state, action ) => state)
     },
 })
+
+export const userDispatch = (dispatch: AppDispatch) => {
+    return {
+        GET_USER: ( payload: any ) => dispatch(userActions.GET_USER(payload)),
+
+    }
+}
+
 
 export const userActions = userSlice.actions
 export default userSlice.reducer

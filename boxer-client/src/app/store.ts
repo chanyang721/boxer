@@ -2,15 +2,16 @@ import { PROD }           from '../constants/actionTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer }    from './rootReducer'
 import logger             from 'redux-logger'
-import { acthActions }    from '../features/auth/authSlice'
-import { userActions }    from '../features/user/userSlice'
+import { authDispatch }   from '../features/auth/authSlice'
+import { userDispatch }   from '../features/user/userSlice'
+import { viewerDispatch } from '../features/viewer/viewerSlice'
 
 
 
 export const store = configureStore({
     reducer   : rootReducer,
     middleware: [ logger ],
-    devTools  : process.env.NODE_ENV !== PROD,
+    // devTools  : process.env.NODE_ENV !== PROD,
 })
 
 export type RootState = ReturnType<typeof store.getState>
@@ -26,13 +27,9 @@ export const mapStateToProps = ( state: any ) => {
 export const mapDispatchProps = ( dispatch: AppDispatch ) => {
     return {
         dispatch: {
-            auth: {
-                REGISTER: ( payload: any ) => dispatch(acthActions.REGISTER(payload)),
-                LOGIN   : ( payload: any ) => dispatch(acthActions.LOGIN(payload)),
-            },
-            user: {
-                GET_USER: ( payload: any ) => dispatch(userActions.GET_USER(payload)),
-            },
+            auth: authDispatch(dispatch),
+            user: userDispatch(dispatch),
+            viewer: viewerDispatch(dispatch)
         },
     }
 }
