@@ -1,4 +1,3 @@
-import { PROD }           from '../constants/actionTypes'
 import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer }    from './rootReducer'
 import logger             from 'redux-logger'
@@ -27,9 +26,9 @@ export const mapStateToProps = ( state: any ) => {
 export const mapDispatchProps = ( dispatch: AppDispatch ) => {
     return {
         dispatch: {
-            auth: authDispatch(dispatch),
-            user: userDispatch(dispatch),
-            viewer: viewerDispatch(dispatch)
+            auth  : authDispatch(dispatch),
+            user  : userDispatch(dispatch),
+            viewer: viewerDispatch(dispatch),
         },
     }
 }
