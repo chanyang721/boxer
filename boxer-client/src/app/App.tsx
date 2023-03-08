@@ -8,7 +8,7 @@ import Auth                               from '../features/auth/Auth'
 const App = () => {
     return (
         <>
-            <h1>Boxer</h1>
+            <h1>Boxer Client</h1>
             <Auth />
         </>
     );

@@ -47,12 +47,16 @@ const userSlice = createSlice({
     name         : 'user',
     initialState : userInitialState,
     reducers     : {
-        // [ GetUserAction.type ]: GetUserReducerCase,
-        GET_USER: GetUserReducerCase,
+        [ GetUserAction.type ]: GetUserReducerCase,
     },
     extraReducers: ( builder ) => {
         builder
-            // .addMatcher()
+            .addMatcher(
+                ( action ) => action.type.startsWith('user'),
+                ( state, action ) => {
+                    console.log('userSlice addMatcher', action)
+                }
+            )
             .addDefaultCase(( state, action ) => state)
     },
 })

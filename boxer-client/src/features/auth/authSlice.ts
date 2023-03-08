@@ -64,10 +64,8 @@ const authSlice = createSlice({
     name         : 'auth',
     initialState : authInitialState,
     reducers     : {
-        // [ RegisterAction.type ]: RegisterReducerCase,
-        // [ LoginAction.type ]   : LoginReducerCase,
-        REGISTER: RegisterReducerCase,
-        LOGIN   : LoginReducerCase,
+        [ RegisterAction.type ]: RegisterReducerCase,
+        [ LoginAction.type ]   : LoginReducerCase,
     },
     extraReducers: ( builder ) => {
         builder
