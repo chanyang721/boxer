@@ -6,6 +6,8 @@ import { mapDispatchProps, mapStateToProps } from '../../app/store'
 
 const ModelViewer = ({ state, dispatch, ...props}: IProps) => {
 
+
+
     return (
         <div className="google_viewer">
             <div>ModelViewer</div>

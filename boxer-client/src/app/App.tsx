@@ -1,15 +1,12 @@
-import React       from 'react'
-import Auth        from '../features/auth/Auth'
-import ModelViewer from '../features/viewer/Viewer'
+import React from 'react'
 
 
 
 const App = () => {
+
     return (
         <>
-            <h1>Boxer Client</h1>
-            <Auth/>
-            <ModelViewer/>
+            <h1>Boxer Home Page</h1>
         </>
     );
 }

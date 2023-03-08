@@ -14,7 +14,7 @@ function Auth( { state, dispatch, ...props }: IProps ) {
 
     return (
         <>
-            <div className="auth">Auth Component</div>
+            <div className="auth">Login Page</div>
 
             <button onClick={changeUserName}>{change}</button>
             <div>{state.user.name}</div>
