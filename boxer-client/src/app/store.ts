@@ -1,7 +1,9 @@
-import { LOGIN, PROD, REGISTER } from '../constants/actionTypes'
-import { configureStore }        from '@reduxjs/toolkit'
+import { PROD }           from '../constants/actionTypes'
+import { configureStore } from '@reduxjs/toolkit'
 import { rootReducer }    from './rootReducer'
 import logger             from 'redux-logger'
+import { acthActions }    from '../features/auth/authSlice'
+import { userActions }    from '../features/user/userSlice'
 
 
 
@@ -15,17 +17,22 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 console.log(store.getState())
 
-
-export const mapStateToProps = (state: any) => {
+export const mapStateToProps = ( state: any ) => {
     return {
-        auth: state.auth,
-        user: state.user,
+        state: { ...state },
     }
 }
 
-export const mapDispatchProps = (dispatch: AppDispatch) => {
+export const mapDispatchProps = ( dispatch: AppDispatch ) => {
     return {
-        register: (payload: any) => dispatch({ type: REGISTER, payload }),
-        login: (payload: any) => dispatch({ type: LOGIN, payload }),
+        dispatch: {
+            auth: {
+                REGISTER: ( payload: any ) => dispatch(acthActions.REGISTER(payload)),
+                LOGIN   : ( payload: any ) => dispatch(acthActions.LOGIN(payload)),
+            },
+            user: {
+                GET_USER: ( payload: any ) => dispatch(userActions.GET_USER(payload)),
+            },
+        },
     }
 }

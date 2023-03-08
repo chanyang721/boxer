@@ -1,6 +1,6 @@
-import { updateActionObjectToState }   from '../../common/utils'
-import { createAction, createReducer } from '@reduxjs/toolkit'
-import { GET_USER }                    from '../../constants/actionTypes'
+import { updateActionObjectToState } from '../../common/utils'
+import { createAction, createSlice } from '@reduxjs/toolkit'
+import { GET_USER }                  from '../../constants/actionTypes'
 
 
 
@@ -9,8 +9,10 @@ import { GET_USER }                    from '../../constants/actionTypes'
  * */
 export interface IUserAction {
     type: string,
-    payload: IUserInitialState
+    payload: IUserInitialState,
+    error?: Error
 }
+
 
 export interface IUserInitialState {
     name: string,
@@ -21,12 +23,12 @@ export interface IUserInitialState {
 /**
  * Create Actions
  * */
-export const GET_USER_ACTION = createAction<IUserInitialState>(GET_USER)
+export const GetUserAction = createAction<IUserInitialState>(GET_USER)
 
 /**
  * Create Reducer Case
  * */
-export const reducerCaseGetUser = ( authState: IUserInitialState, action: IUserAction ) => {
+export const GetUserReducerCase = ( authState: IUserInitialState, action: IUserAction ) => {
     return updateActionObjectToState(authState, action.payload)
 }
 
@@ -39,9 +41,21 @@ export const userInitialState: IUserInitialState = {
 }
 
 /**
- * Create User Reducer with @reduxjs/toolkit
+ * Create User Slice with @reduxjs/toolkit
  * */
-export const userReducer = createReducer(userInitialState, {
-    [ GET_USER_ACTION.type ]: reducerCaseGetUser,
-
+const userSlice = createSlice({
+    name         : 'user',
+    initialState : userInitialState,
+    reducers     : {
+        // [ GetUserAction.type ]: GetUserReducerCase,
+        GET_USER: GetUserReducerCase,
+    },
+    extraReducers: ( builder ) => {
+        builder
+            // .addMatcher()
+            .addDefaultCase(( state, action ) => state)
+    },
 })
+
+export const userActions = userSlice.actions
+export default userSlice.reducer

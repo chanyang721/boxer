@@ -1,6 +1,7 @@
-import { updateActionObjectToState }                                     from '../../common/utils'
-import { createAction, createEntityAdapter, createReducer, createSlice } from '@reduxjs/toolkit'
-import { LOGIN, REGISTER }                                               from '../../constants/actionTypes'
+import { updateActionObjectToState } from '../../common/utils'
+import { createAction, createSlice } from '@reduxjs/toolkit'
+import { LOGIN, REGISTER }           from '../../constants/actionTypes'
+
 
 
 /**
@@ -11,6 +12,7 @@ export interface IAuthAction {
     payload: IAuthInitialState,
     error?: Error
 }
+
 
 export interface IAuthInitialState {
     token: {
@@ -30,58 +32,23 @@ export interface IAuthInitialState {
 export const RegisterAction = createAction<IAuthInitialState>(REGISTER)
 export const LoginAction = createAction<IAuthInitialState>(LOGIN)
 
-
 /**
  * Reducer Case
  * */
-//TODO action Interface 재설정
+             //TODO action Interface 재설정
 export const RegisterReducerCase = ( authState: IAuthInitialState, action: IAuthAction ) => {
-    return updateActionObjectToState(authState, action.payload)
-}
+                 return updateActionObjectToState(authState, action.payload)
+             }
 
 export const LoginReducerCase = ( authState: IAuthInitialState, action: IAuthAction ) => {
     return updateActionObjectToState(authState, action.payload)
 }
 
-
 /**
- * Auth Initial State
+ * Create Auth Slice with @reduxjs/toolkit
  * */
-// export const authInitialState: IAuthInitialState = {
-//     token           : {
-//         access : '',
-//         refresh: '',
-//     },
-//     firebase       : {
-//         idToken: '',
-//         uid    : '',
-//     },
-//     isAuthenticated: false,
-// }
-
-/**
- * Create Auth Reducer with @reduxjs/toolkit
- * */
-// export const authReducer = createReducer(authInitialState, ( builder ) => {
-//     builder
-//         .addCase(RegisterAction, RegisterReducerCase)
-//         .addCase(LoginAction, LoginReducerCase)
-//
-//         .addMatcher(
-//             ( action ) => action.type.startsWith('test'),
-//             ( state, action ) => {
-//                 console.log('action.type.startsWith(\'test/\')')
-//             }
-//         )
-//         .addDefaultCase(( state, action ) => {})
-// })
-
-
-
-/////////////////////////////////////////////////////
-const authAdapter = createEntityAdapter()
-const authInitialState = authAdapter.getInitialState({
-    token           : {
+const authInitialState: IAuthInitialState = {
+    token          : {
         access : '',
         refresh: '',
     },
@@ -90,17 +57,19 @@ const authInitialState = authAdapter.getInitialState({
         uid    : '',
     },
     isAuthenticated: false,
-    status: 'idle'
-} as IAuthInitialState)
+    status         : 'idle',
+}
 
 const authSlice = createSlice({
-    name: 'auth',
-    initialState: authInitialState,
-    reducers: {
-        [ RegisterAction.type ]: RegisterReducerCase,
-        [ LoginAction.type ]: LoginReducerCase,
+    name         : 'auth',
+    initialState : authInitialState,
+    reducers     : {
+        // [ RegisterAction.type ]: RegisterReducerCase,
+        // [ LoginAction.type ]   : LoginReducerCase,
+        REGISTER: RegisterReducerCase,
+        LOGIN   : LoginReducerCase,
     },
-    extraReducers: (builder) => {
+    extraReducers: ( builder ) => {
         builder
             // .addCase(fetchAuth.pending, (state, action) => {
             //     state.status = 'loading'
@@ -110,15 +79,12 @@ const authSlice = createSlice({
             //     state.status = 'idle'
             // })
             // .addCase(saveNewTodo.fulfilled, authAdapter.addOne)
-            .addMatcher(
-                ( action ) => action.type.startsWith('test'),
-                ( state, action ) => {
-                    console.log('action.type.startsWith(\'test/\')')
-                }
-            )
+            .addMatcher(( action ) => action.type.startsWith('test'), ( state, action ) => {
+                console.log('action.type.startsWith(\'test/\')')
+            })
             .addDefaultCase(( state, action ) => state)
-    }
+    },
 })
 
-export const actions = authSlice.actions
+export const acthActions = authSlice.actions
 export default authSlice.reducer
